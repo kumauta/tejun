@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <script>
+      function copyToClipboard(eId) {
+        var copyTarget = document.getElementById(eId);
+        copyTarget.select();
+        document.execCommand("Copy");
+        alert("copy text: " + copyTarget.value);
+        copyTarget.style.backgroundColor = '#FFFF66';
+      }
+    </script>
+  </head>
+  <body>
+    <div id="area">
