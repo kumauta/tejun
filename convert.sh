@@ -1,7 +1,7 @@
 #!/bin/bash
 
 infile=base.txt
-outfile=tejyun.html
+outfile=tejun.html
 cnt=0
 
 # output header
