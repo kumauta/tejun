@@ -1,0 +1,90 @@
+<html>
+
+<head>
+  <meta charset="utf-8"/>
+  <script>
+    function copyToClipboard(eId) {
+      var copyTarget = document.getElementById(eId);
+      copyTarget.select();
+      document.execCommand("Copy");
+      copyTarget.style.backgroundColor = '#FFFF66';
+    }
+
+    function convertProcess() {
+
+      // clear
+      document.getElementById("output_area").innerHTML = "";
+
+      var process = document.getElementById("raw_process").value;
+      var lines = process.split(/\r\n|\r|\n/);
+      for (var i = 0; i < lines.length; i++) {
+        if (lines[i] == '') {
+          continue;
+        }
+
+        // escape html
+        var line = lines[i];
+        line = line.replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+
+        var convertedLine = "";
+        if (line.indexOf('# ') == 0) {
+          line = line.replace('# ','');
+          convertedLine = "<div style=\"color:red; font-size:14pt; font-weight: bold;\">" + line + "</div>";
+        } else if (line.indexOf('## ') == 0) {
+          line = line.replace('## ','');
+          convertedLine = "<div style=\"color:blue; font-size:10pt; font-weight: bold;\">" + line + "</div>";
+        } else if (line.indexOf('$ ') == 0) {
+          line = line.replace('$ ','');
+          convertedLine = "<input id=\"eId" + i + "\" size=\"150\" type=\"text\" value=\""
+            + line + "\" readonly><button onclick=\"copyToClipboard('eId" + i + "')\">Copy</button><br>";
+        } else {
+          convertedLine = "<input id=\"eId" + i + "\" size=\"150\" type=\"text\" value=\""
+            + line + "\" style=\"background-color: rgb(128, 128, 128);\" readonly><button>Error</button><br>";
+        }
+        document.getElementById("output_area").innerHTML += convertedLine;
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div id="input_area">
+    <h2>手順のフォーマット</h2>
+    <ul>
+      <li><code style="background-color: rgb(192, 192, 192); font-weight: bold;"># </code> から開始される行はセクションのヘッダとして扱われる</li>
+      <li><code style="background-color: rgb(192, 192, 192); font-weight: bold;">## </code> から開始される行はコメントとして扱われる</li>
+      <li><code style="background-color: rgb(192, 192, 192); font-weight: bold;">$ </code> から開始される行は手順として扱われる</li>
+      <li>上記以外はエラーとする</li>
+    </ul>
+    <form>
+    <h2>手順入力欄</h2>
+    <ul>
+      <li>手順入力後、タブキーを押すか欄外をクリックする</li>
+    </ul>
+      <textarea id="raw_process" name="raw_process" cols="147" rows="20" onchange="convertProcess()">
+# animal
+## dog
+$ whoami</textarea>
+      <br>
+    </form>
+  </div>
+  <h2>変換後の手順</h2>
+  <ul>
+    <li>Copyボタンをクリックすると、クリップボードに手順がコピーされる</li>
+  </ul>
+  <div id="output_area">
+    <div style="color:red; font-size:14pt; font-weight: bold;">animal</div>
+    <div style="color:blue; font-size:10pt; font-weight: bold;">dog</div>
+    <input id="eId0" size="150" type="text" value="whoami " readonly=""><button onclick="copyToClipboard('eId0')">Copy</button>
+  </div>
+  <div style="text-align: right;">
+    <br>
+    <a href="https://github.com/kumauta/tejun">kumauta/tejun</a>
+  </div>
+</body>
+
+</html>
