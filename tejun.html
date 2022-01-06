@@ -43,7 +43,7 @@
             + line + "\" readonly><button onclick=\"copyToClipboard('eId" + i + "')\">Copy</button><br>";
         } else {
           convertedLine = "<input id=\"eId" + i + "\" size=\"150\" type=\"text\" value=\""
-            + line + "\" style=\"background-color: rgb(128, 128, 128);\" readonly><button>Error</button><br>";
+            + line + "\" style=\"background-color: rgb(128, 128, 128);\" readonly><br>";
         }
         document.getElementById("output_area").innerHTML += convertedLine;
       }
@@ -58,7 +58,7 @@
       <li><code style="background-color: rgb(192, 192, 192); font-weight: bold;"># </code> から開始される行はセクションのヘッダとして扱われる</li>
       <li><code style="background-color: rgb(192, 192, 192); font-weight: bold;">## </code> から開始される行はコメントとして扱われる</li>
       <li><code style="background-color: rgb(192, 192, 192); font-weight: bold;">$ </code> から開始される行は手順として扱われる</li>
-      <li>上記以外はエラーとする</li>
+      <li>上記以外はコピー対象外とする</li>
     </ul>
     <form>
     <h2>手順入力欄</h2>
