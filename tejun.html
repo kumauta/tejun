@@ -3,11 +3,15 @@
 <head>
   <meta charset="utf-8"/>
   <script>
-    function copyToClipboard(eId) {
-      var copyTarget = document.getElementById(eId);
+    function copyToClipboard(idNo) {
+      var copyTarget = document.getElementById("eId" + idNo);
       copyTarget.select();
       document.execCommand("Copy");
       copyTarget.style.backgroundColor = '#FFFF66';
+
+      var now = new Date();
+      var buttonText = ("0" + now.getHours()).slice(-2) + ":" + ("0" + now.getMinutes()).slice(-2) + ":" + ("0" + now.getSeconds()).slice(-2);
+      document.getElementById("bId" + idNo).innerText=buttonText;
     }
 
     function convertProcess() {
@@ -17,6 +21,7 @@
 
       var process = document.getElementById("raw_process").value;
       var lines = process.split(/\r\n|\r|\n/);
+      var pNo = 1;
       for (var i = 0; i < lines.length; i++) {
         if (lines[i] == '') {
           continue;
@@ -39,11 +44,13 @@
           convertedLine = "<div style=\"color:blue; font-size:10pt; font-weight: bold;\">" + line + "</div>";
         } else if (line.indexOf('$ ') == 0) {
           line = line.replace('$ ','');
-          convertedLine = "<input id=\"eId" + i + "\" size=\"150\" type=\"text\" value=\""
-            + line + "\" readonly><button onclick=\"copyToClipboard('eId" + i + "')\">Copy</button><br>";
+          convertedLine = "<div>" + ("0000" + pNo).slice(-4) + "&nbsp;<input id=\"eId" + i + "\" size=\"150\" type=\"text\" value=\""
+            + line + "\" readonly><button id=\"bId" + i + "\" onclick=\"copyToClipboard('" + i + "')\">Copy</div>";
+          pNo ++;
         } else {
-          convertedLine = "<input id=\"eId" + i + "\" size=\"150\" type=\"text\" value=\""
-            + line + "\" style=\"background-color: rgb(128, 128, 128);\" readonly><br>";
+          convertedLine = "<div>" + ("0000" + pNo).slice(-4) + "&nbsp;<input id=\"eId" + i + "\" size=\"150\" type=\"text\" value=\""
+            + line + "\" style=\"background-color: rgb(128, 128, 128);\" readonly></div>";
+          pNo ++;
         }
         document.getElementById("output_area").innerHTML += convertedLine;
       }
@@ -79,7 +86,7 @@ $ whoami</textarea>
   <div id="output_area">
     <div style="color:red; font-size:14pt; font-weight: bold;">animal</div>
     <div style="color:blue; font-size:10pt; font-weight: bold;">dog</div>
-    <input id="eId0" size="150" type="text" value="whoami " readonly=""><button onclick="copyToClipboard('eId0')">Copy</button>
+    <div>0001&nbsp;<input id="eId0" size="150" type="text" value="whoami" readonly=""><button id="bId0" onclick="copyToClipboard('0')">Copy</button></div>
   </div>
   <div style="text-align: right;">
     <br>
