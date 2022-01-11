@@ -69,10 +69,7 @@
     </ul>
     <form>
     <h2>手順入力欄</h2>
-    <ul>
-      <li>手順入力後、タブキーを押すか欄外をクリックする</li>
-    </ul>
-      <textarea id="raw_process" name="raw_process" cols="147" rows="20" onchange="convertProcess()">
+    <textarea id="raw_process" name="raw_process" cols="147" rows="20" oninput="convertProcess()">
 # animal
 ## dog
 $ whoami</textarea>
