@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <meta charset="utf-8"/>
+  <meta charset="utf-8" />
   <style>
     .flex {
       display: flex;
@@ -26,7 +26,7 @@
       width: 50px;
     }
 
-    .copy_btn{
+    .copy_btn {
       width: 70px;
     }
   </style>
@@ -41,7 +41,7 @@
 
       var now = new Date();
       var buttonText = ("0" + now.getHours()).slice(-2) + ":" + ("0" + now.getMinutes()).slice(-2) + ":" + ("0" + now.getSeconds()).slice(-2);
-      document.getElementById("bId" + idNo).innerText=buttonText;
+      document.getElementById("bId" + idNo).innerText = buttonText;
     }
 
     function convertProcess() {
@@ -67,26 +67,26 @@
 
         var convertedLine = "";
         if (line.indexOf('# ') == 0) {
-          line = line.replace('# ','');
+          line = line.replace('# ', '');
           convertedLine = "<div style=\"color:red; font-size:14pt; font-weight: bold;\">" + line + "</div>";
         } else if (line.indexOf('## ') == 0) {
-          line = line.replace('## ','');
+          line = line.replace('## ', '');
           convertedLine = "<div style=\"color:blue; font-size:10pt; font-weight: bold;\">" + line + "</div>";
         } else if (line.indexOf('$ ') == 0) {
-          line = line.replace('$ ','');
+          line = line.replace('$ ', '');
           convertedLine = "<div class=\"flex\">";
           convertedLine += "<div class=\"left\"><pre>" + ("0000" + pNo).slice(-4) + "&nbsp;</pre></div>";
           convertedLine += "<div class=\"mid\"><pre><code class=\"language-bash\" id=\"eId" + i + "\">" + line + "</code></pre></div>&nbsp;";
           convertedLine += "<div class=\"right\"><button class=\"copy_btn\" id=\"bId" + i + "\" onclick=\"copyToClipboard('" + i + "')\">Copy</div>";
           convertedLine += "</div>";
-          pNo ++;
+          pNo++;
         } else {
           convertedLine = "<div class=\"flex\">";
           convertedLine += "<div class=\"left\"><pre>" + ("0000" + pNo).slice(-4) + "&nbsp;</pre></div>";
           convertedLine += "<div class=\"mid_nfc\"><pre><code id=\"eId" + i + "\">" + line + "</code></pre></div>&nbsp;";
           convertedLine += "<div class=\"right\"></div>";
           convertedLine += "</div>";
-          pNo ++;
+          pNo++;
         }
         document.getElementById("output_area").innerHTML += convertedLine;
         hljs.highlightAll();
@@ -96,17 +96,18 @@
 </head>
 
 <body>
+  <h2>手順のフォーマット</h2>
+  <ul>
+    <li><code style="background-color: rgb(192, 192, 192); font-weight: bold;"># </code> から開始される行はセクションのヘッダとして扱われる
+    </li>
+    <li><code style="background-color: rgb(192, 192, 192); font-weight: bold;">## </code> から開始される行はコメントとして扱われる</li>
+    <li><code style="background-color: rgb(192, 192, 192); font-weight: bold;">$ </code> から開始される行は手順として扱われる</li>
+    <li>上記以外はコピー対象外とする</li>
+  </ul>
   <div id="input_area">
-    <h2>手順のフォーマット</h2>
-    <ul>
-      <li><code style="background-color: rgb(192, 192, 192); font-weight: bold;"># </code> から開始される行はセクションのヘッダとして扱われる</li>
-      <li><code style="background-color: rgb(192, 192, 192); font-weight: bold;">## </code> から開始される行はコメントとして扱われる</li>
-      <li><code style="background-color: rgb(192, 192, 192); font-weight: bold;">$ </code> から開始される行は手順として扱われる</li>
-      <li>上記以外はコピー対象外とする</li>
-    </ul>
     <form>
-    <h2>手順入力欄</h2>
-    <textarea id="raw_process" name="raw_process" cols="147" rows="20" oninput="convertProcess()">
+      <h2>手順入力欄</h2>
+      <textarea id="raw_process" name="raw_process" cols="147" rows="20" oninput="convertProcess()">
 # animal
 ## dog
 $ whoami</textarea>
@@ -120,7 +121,8 @@ $ whoami</textarea>
   <div id="output_area">
     <div style="color:red; font-size:14pt; font-weight: bold;">animal</div>
     <div style="color:blue; font-size:10pt; font-weight: bold;">dog</div>
-    <div>0001&nbsp;<input id="eId0" size="150" type="text" value="whoami" readonly=""><button id="bId0" onclick="copyToClipboard('0')">Copy</button></div>
+    <div>0001&nbsp;<input id="eId0" size="150" type="text" value="whoami" readonly=""><button id="bId0"
+        onclick="copyToClipboard('0')">Copy</button></div>
   </div>
   <div style="text-align: right;">
     <br>
