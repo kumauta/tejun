@@ -2,11 +2,41 @@
 
 <head>
   <meta charset="utf-8"/>
+  <style>
+    .flex {
+      display: flex;
+      align-items: center;
+      height: 20px;
+    }
+
+    .right {
+      width: 80px;
+    }
+
+    .mid {
+      width: calc(100% - 130px);
+    }
+
+    .mid_nfc {
+      width: calc(100% - 130px);
+      text-decoration: line-through;
+    }
+
+    .left {
+      width: 50px;
+    }
+
+    .copy_btn{
+      width: 70px;
+    }
+  </style>
+  <link rel="stylesheet" href="./highlight/styles/default.min.css">
+  <script src="./highlight/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
   <script>
     function copyToClipboard(idNo) {
       var copyTarget = document.getElementById("eId" + idNo);
-      copyTarget.select();
-      document.execCommand("Copy");
+      navigator.clipboard.writeText(copyTarget.innerText);
       copyTarget.style.backgroundColor = '#FFFF66';
 
       var now = new Date();
@@ -44,15 +74,22 @@
           convertedLine = "<div style=\"color:blue; font-size:10pt; font-weight: bold;\">" + line + "</div>";
         } else if (line.indexOf('$ ') == 0) {
           line = line.replace('$ ','');
-          convertedLine = "<div>" + ("0000" + pNo).slice(-4) + "&nbsp;<input id=\"eId" + i + "\" size=\"150\" type=\"text\" value=\""
-            + line + "\" readonly><button id=\"bId" + i + "\" onclick=\"copyToClipboard('" + i + "')\">Copy</div>";
+          convertedLine = "<div class=\"flex\">";
+          convertedLine += "<div class=\"left\"><pre>" + ("0000" + pNo).slice(-4) + "&nbsp;</pre></div>";
+          convertedLine += "<div class=\"mid\"><pre><code class=\"language-bash\" id=\"eId" + i + "\">" + line + "</code></pre></div>&nbsp;";
+          convertedLine += "<div class=\"right\"><button class=\"copy_btn\" id=\"bId" + i + "\" onclick=\"copyToClipboard('" + i + "')\">Copy</div>";
+          convertedLine += "</div>";
           pNo ++;
         } else {
-          convertedLine = "<div>" + ("0000" + pNo).slice(-4) + "&nbsp;<input id=\"eId" + i + "\" size=\"150\" type=\"text\" value=\""
-            + line + "\" style=\"background-color: rgb(128, 128, 128);\" readonly></div>";
+          convertedLine = "<div class=\"flex\">";
+          convertedLine += "<div class=\"left\"><pre>" + ("0000" + pNo).slice(-4) + "&nbsp;</pre></div>";
+          convertedLine += "<div class=\"mid_nfc\"><pre><code id=\"eId" + i + "\">" + line + "</code></pre></div>&nbsp;";
+          convertedLine += "<div class=\"right\"></div>";
+          convertedLine += "</div>";
           pNo ++;
         }
         document.getElementById("output_area").innerHTML += convertedLine;
+        hljs.highlightAll();
       }
     }
   </script>
