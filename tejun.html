@@ -92,7 +92,13 @@
         hljs.highlightAll();
       }
     }
+
+    // convert sample process
+    window.onload = function () {
+      convertProcess();
+    }
   </script>
+
 </head>
 
 <body>
@@ -110,7 +116,9 @@
       <textarea id="raw_process" name="raw_process" cols="147" rows="20" oninput="convertProcess()">
 # animal
 ## dog
-$ whoami</textarea>
+$ whoami
+## cat
+not covered</textarea>
       <br>
     </form>
   </div>
@@ -119,10 +127,6 @@ $ whoami</textarea>
     <li>Copyボタンをクリックすると、クリップボードに手順がコピーされる</li>
   </ul>
   <div id="output_area">
-    <div style="color:red; font-size:14pt; font-weight: bold;">animal</div>
-    <div style="color:blue; font-size:10pt; font-weight: bold;">dog</div>
-    <div>0001&nbsp;<input id="eId0" size="150" type="text" value="whoami" readonly=""><button id="bId0"
-        onclick="copyToClipboard('0')">Copy</button></div>
   </div>
   <div style="text-align: right;">
     <br>
