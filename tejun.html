@@ -93,6 +93,21 @@
       }
     }
 
+    function lockForm() {
+      var checkBox = document.getElementById("lock_btn");
+      var processForm = document.getElementById("raw_process");
+
+      if (checkBox.checked) {
+        processForm.readOnly = true;
+        processForm.style.backgroundColor = "rgb(192,192,192)";
+
+      } else {
+        processForm.readOnly = false;
+        processForm.style.backgroundColor = "rgb(255,255,255)";
+      }
+      hljs.highlightAll();
+    }
+
     // convert sample process
     window.onload = function () {
       convertProcess();
@@ -120,6 +135,7 @@ $ whoami
 ## cat
 not covered</textarea>
       <br>
+      Lock<input type="checkbox" id="lock_btn" onchange="lockForm()">
     </form>
   </div>
   <h2>変換後の手順</h2>
