@@ -155,38 +155,45 @@
 </head>
 
 <body>
-  <h2>手順のフォーマット</h2>
-  以下、上から順に評価される。
-  <ul>
-    <li><input type="text" id="section_prefix" class="prefix_form" value="# " oninput="convertProcess()">
-      から開始される行はセクションのヘッダとして扱われる
-    </li>
-    <li><input type="text" id="comment_prefix" class="prefix_form" value="## " oninput="convertProcess()">
-      から開始される行はコメントとして扱われる</li>
-    <li><input type="text" id="process_prefix" class="prefix_form" value="$ " oninput="convertProcess()">
-      から開始される行は手順として扱われる</li>
-    <li><input type="checkbox" id="recognition_flg" onchange="convertProcess()">上記以外を手順として認識する</li>
-  </ul>
-  <div id="input_area">
-    <form>
-      <h2>手順入力欄</h2>
-      <textarea id="raw_process" name="raw_process" cols="147" rows="20" oninput="convertProcess()"
-        class="process_form">
+  <div id="wrap">
+    <div id="header"></div>
+    <div id="description">
+      <h2>手順のフォーマット</h2>
+      以下、上から順に評価される。
+      <ul>
+        <li><input type="text" id="section_prefix" class="prefix_form" value="# " oninput="convertProcess()">
+          から開始される行はセクションのヘッダとして扱われる
+        </li>
+        <li><input type="text" id="comment_prefix" class="prefix_form" value="## " oninput="convertProcess()">
+          から開始される行はコメントとして扱われる</li>
+        <li><input type="text" id="process_prefix" class="prefix_form" value="$ " oninput="convertProcess()">
+          から開始される行は手順として扱われる</li>
+        <li><input type="checkbox" id="recognition_flg" onchange="convertProcess()">上記以外を手順として認識する</li>
+      </ul>
+    </div>
+    <div id="input_area">
+      <form>
+        <h2>手順入力欄</h2>
+        <textarea id="raw_process" name="raw_process" cols="147" rows="20" oninput="convertProcess()"
+          class="process_form">
 # animal
 ## dog
 $ whoami
 ## cat
 not covered</textarea>
+        <br>
+        <input type="checkbox" id="lock_btn" onchange="lockForm()">入力欄をロックする
+      </form>
+    </div>
+    <div id="process">
+      <h2>変換後の手順</h2>
+      <div id="output_area">
+      </div>
+    </div>
+    <div class="footer">
       <br>
-      <input type="checkbox" id="lock_btn" onchange="lockForm()">入力欄をロックする
-    </form>
-  </div>
-  <h2>変換後の手順</h2>
-  <div id="output_area">
-  </div>
-  <div class="footer">
-    <br>
-    <a href="https://github.com/kumauta/tejun">kumauta/tejun</a>
+      <a href="https://github.com/kumauta/tejun">kumauta/tejun</a>
+    </div>
   </div>
 </body>
 
