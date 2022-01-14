@@ -65,15 +65,19 @@
           .replace(/"/g, '&quot;')
           .replace(/'/g, '&#39;');
 
+        var sectionPrefix = document.getElementById("section_prefix").value;
+        var commentPrefix = document.getElementById("comment_prefix").value;
+        var processPrefix = document.getElementById("process_prefix").value;
+
         var convertedLine = "";
-        if (line.indexOf('# ') == 0) {
-          line = line.replace('# ', '');
+        if (line.indexOf(sectionPrefix) == 0) {
+          line = line.replace(sectionPrefix, '');
           convertedLine = "<div style=\"color:red; font-size:14pt; font-weight: bold;\">" + line + "</div>";
-        } else if (line.indexOf('## ') == 0) {
-          line = line.replace('## ', '');
+        } else if (line.indexOf(commentPrefix) == 0) {
+          line = line.replace(commentPrefix, '');
           convertedLine = "<div style=\"color:blue; font-size:10pt; font-weight: bold;\">" + line + "</div>";
-        } else if (line.indexOf('$ ') == 0) {
-          line = line.replace('$ ', '');
+        } else if (line.indexOf(processPrefix) == 0) {
+          line = line.replace(processPrefix, '');
           convertedLine = "<div class=\"flex\">";
           convertedLine += "<div class=\"left\"><pre>" + ("0000" + pNo).slice(-4) + "&nbsp;</pre></div>";
           convertedLine += "<div class=\"mid\"><pre><code class=\"language-bash\" id=\"eId" + i + "\">" + line + "</code></pre></div>&nbsp;";
@@ -119,10 +123,13 @@
 <body>
   <h2>手順のフォーマット</h2>
   <ul>
-    <li><code style="background-color: rgb(192, 192, 192); font-weight: bold;"># </code> から開始される行はセクションのヘッダとして扱われる
+    <li><input type="text" id="section_prefix" style="background-color: rgb(192, 192, 192); font-weight: bold;"
+        value="# " oninput="convertProcess()"> から開始される行はセクションのヘッダとして扱われる
     </li>
-    <li><code style="background-color: rgb(192, 192, 192); font-weight: bold;">## </code> から開始される行はコメントとして扱われる</li>
-    <li><code style="background-color: rgb(192, 192, 192); font-weight: bold;">$ </code> から開始される行は手順として扱われる</li>
+    <li><input type="text" id="comment_prefix" style="background-color: rgb(192, 192, 192); font-weight: bold;"
+        value="## " oninput="convertProcess()"> から開始される行はコメントとして扱われる</li>
+    <li><input type="text" id="process_prefix" style="background-color: rgb(192, 192, 192); font-weight: bold;"
+        value="$ " oninput="convertProcess()"> から開始される行は手順として扱われる</li>
     <li>上記以外はコピー対象外とする</li>
   </ul>
   <div id="input_area">
@@ -135,7 +142,7 @@ $ whoami
 ## cat
 not covered</textarea>
       <br>
-      Lock<input type="checkbox" id="lock_btn" onchange="lockForm()">
+      編集エリアをロックする<input type="checkbox" id="lock_btn" onchange="lockForm()">
     </form>
   </div>
   <h2>変換後の手順</h2>
