@@ -29,6 +29,31 @@
       width: 70px;
       padding: 12px;
     }
+
+    .prefix_form {
+      width: 50px;
+      font-weight: bold;
+    }
+
+    .process_form {
+      width: 100%;
+    }
+
+    .section {
+      color: red;
+      font-size: 14pt;
+      font-weight: bold;
+    }
+
+    .comment {
+      color: blue;
+      font-size: 10pt;
+      font-weight: bold;
+    }
+
+    .footer {
+      text-align: right;
+    }
   </style>
   <link rel="stylesheet" href="./highlight/styles/default.min.css">
   <script src="./highlight/highlight.min.js"></script>
@@ -68,14 +93,15 @@
         var sectionPrefix = document.getElementById("section_prefix").value;
         var commentPrefix = document.getElementById("comment_prefix").value;
         var processPrefix = document.getElementById("process_prefix").value;
+        var recognitionFlg = document.getElementById("recognition_flg").checked;
 
         var convertedLine = "";
         if (line.indexOf(sectionPrefix) == 0) {
           line = line.replace(sectionPrefix, '');
-          convertedLine = "<div style=\"color:red; font-size:14pt; font-weight: bold;\">" + line + "</div>";
+          convertedLine = "<div class=\"section\">" + line + "</div>";
         } else if (line.indexOf(commentPrefix) == 0) {
           line = line.replace(commentPrefix, '');
-          convertedLine = "<div style=\"color:blue; font-size:10pt; font-weight: bold;\">" + line + "</div>";
+          convertedLine = "<div class=\"comment\">" + line + "</div>";
         } else if (line.indexOf(processPrefix) == 0) {
           line = line.replace(processPrefix, '');
           convertedLine = "<div class=\"flex\">";
@@ -85,11 +111,19 @@
           convertedLine += "</div>";
           pNo++;
         } else {
-          convertedLine = "<div class=\"flex\">";
-          convertedLine += "<div class=\"left\"><pre>" + ("0000" + pNo).slice(-4) + "&nbsp;</pre></div>";
-          convertedLine += "<div class=\"mid_nfc\"><pre><code id=\"eId" + i + "\">" + line + "</code></pre></div>&nbsp;";
-          convertedLine += "<div class=\"right\"></div>";
-          convertedLine += "</div>";
+          if (!recognitionFlg) {
+            convertedLine = "<div class=\"flex\">";
+            convertedLine += "<div class=\"left\"><pre>" + ("0000" + pNo).slice(-4) + "&nbsp;</pre></div>";
+            convertedLine += "<div class=\"mid_nfc\"><pre><code id=\"eId" + i + "\">" + line + "</code></pre></div>&nbsp;";
+            convertedLine += "<div class=\"right\"></div>";
+            convertedLine += "</div>";
+          } else {
+            convertedLine = "<div class=\"flex\">";
+            convertedLine += "<div class=\"left\"><pre>" + ("0000" + pNo).slice(-4) + "&nbsp;</pre></div>";
+            convertedLine += "<div class=\"mid\"><pre><code class=\"language-bash\" id=\"eId" + i + "\">" + line + "</code></pre></div>&nbsp;";
+            convertedLine += "<div class=\"right\"><button class=\"copy_btn\" id=\"bId" + i + "\" onclick=\"copyToClipboard('" + i + "')\">Copy</div>";
+            convertedLine += "</div>";
+          }
           pNo++;
         }
         document.getElementById("output_area").innerHTML += convertedLine;
@@ -122,33 +156,35 @@
 
 <body>
   <h2>手順のフォーマット</h2>
+  以下、上から順に評価される。
   <ul>
-    <li><input type="text" id="section_prefix" style="background-color: rgb(192, 192, 192); font-weight: bold;"
-        value="# " oninput="convertProcess()"> から開始される行はセクションのヘッダとして扱われる
+    <li><input type="text" id="section_prefix" class="prefix_form" value="# " oninput="convertProcess()">
+      から開始される行はセクションのヘッダとして扱われる
     </li>
-    <li><input type="text" id="comment_prefix" style="background-color: rgb(192, 192, 192); font-weight: bold;"
-        value="## " oninput="convertProcess()"> から開始される行はコメントとして扱われる</li>
-    <li><input type="text" id="process_prefix" style="background-color: rgb(192, 192, 192); font-weight: bold;"
-        value="$ " oninput="convertProcess()"> から開始される行は手順として扱われる</li>
-    <li>上記以外はコピー対象外とする</li>
+    <li><input type="text" id="comment_prefix" class="prefix_form" value="## " oninput="convertProcess()">
+      から開始される行はコメントとして扱われる</li>
+    <li><input type="text" id="process_prefix" class="prefix_form" value="$ " oninput="convertProcess()">
+      から開始される行は手順として扱われる</li>
+    <li><input type="checkbox" id="recognition_flg" onchange="convertProcess()">上記以外を手順として認識する</li>
   </ul>
   <div id="input_area">
     <form>
       <h2>手順入力欄</h2>
-      <textarea id="raw_process" name="raw_process" cols="147" rows="20" oninput="convertProcess()">
+      <textarea id="raw_process" name="raw_process" cols="147" rows="20" oninput="convertProcess()"
+        class="process_form">
 # animal
 ## dog
 $ whoami
 ## cat
 not covered</textarea>
       <br>
-      編集エリアをロックする<input type="checkbox" id="lock_btn" onchange="lockForm()">
+      <input type="checkbox" id="lock_btn" onchange="lockForm()">入力欄をロックする
     </form>
   </div>
   <h2>変換後の手順</h2>
   <div id="output_area">
   </div>
-  <div style="text-align: right;">
+  <div class="footer">
     <br>
     <a href="https://github.com/kumauta/tejun">kumauta/tejun</a>
   </div>
