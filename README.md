@@ -8,7 +8,7 @@ $ docker run --name nginx --rm -p 8080:80 -v $PWD:/usr/share/nginx/html:ro nginx
 ```
 
 アクセス
-[local site](http://localhost:8080/tejun.html)
+[local site](http://localhost:8080/index.html)
 
 ## サンプルサイト
-[kumauta.com](https://kumauta.com/tejun.html)
+[github.io](https://kumauta.github.io/tejun/)
