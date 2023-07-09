@@ -59,6 +59,7 @@
   <script src="./highlight/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
   <script>
+
     function copyToClipboard(idNo) {
       var copyTarget = document.getElementById("eId" + idNo);
       navigator.clipboard.writeText(copyTarget.innerText);
@@ -150,6 +151,13 @@
     window.onload = function () {
       convertProcess();
     }
+
+    function beforeUnload(event) {
+      event.preventDefault();
+      event.returnValue = 'Check';
+    }
+
+    window.onbeforeunload = beforeUnload;
   </script>
 
 </head>
